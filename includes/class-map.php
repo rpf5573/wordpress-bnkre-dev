@@ -8,9 +8,9 @@ class ML_Map extends MyListing\Src\Queries\Explore_Listings {
 	public $BUILDING_TYPE = 13;
 	public $RESTAURANT_TYPE = 'restaurant';
 	public $WAREHOUSE_TYPE = 'warehouse';
-	public $BUILDING_TYPE_PIN_LOGO_URL = 'http://localhost:8888/bnkre/wp-content/uploads/2019/11/marker.jpg';
-	public $RESTAURANT_TYPE_PIN_LOGO_URL = 'http://localhost:8888/bnkre/wp-content/uploads/2019/11/michelin_pin.png';
-	public $WAREHOUSE_TYPE_PIN_LOGO_URL = 'http://localhost:8888/bnkre/wp-content/uploads/2019/11/marker.jpg';
+	public $BUILDING_TYPE_PIN_LOGO_URL = 'https://bnkre.com/wp-content/uploads/2019/11/marker.jpg';
+	public $RESTAURANT_TYPE_PIN_LOGO_URL = 'https://bnkre.com/wp-content/uploads/2019/11/michelin_pin.png';
+	public $WAREHOUSE_TYPE_PIN_LOGO_URL = 'https://bnkre.com/wp-content/uploads/2019/11/marker.jpg';
 	
 	public function get_request_args(&$explore) {
 		$this->paged = get_query_var( 'paged', 0 );
@@ -466,6 +466,7 @@ class ML_Map extends MyListing\Src\Queries\Explore_Listings {
 		return $result;
 	}
 	public function get_pin_logo( $type ) {
+		\PC::debug( ['type' => $type], __FUNCTION__ );
 		if ( $type == $this->BUILDING_TYPE ) {
 			return $this->BUILDING_TYPE_PIN_LOGO_URL;
 		}
