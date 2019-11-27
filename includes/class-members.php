@@ -46,7 +46,7 @@ class ML_Members {
   }
   public function send_json($result, $message) {
     if ( ! $this->redirect_url ) { $this->redirect_url = home_url(); }
-    \PC::debug( ['ru' => $ru], __FUNCTION__ );
+    
     wp_send_json([
       'success' => $result,
       'redirect_url' => "{$this->redirect_url}/?isSuccess={$result}&message={$message}"

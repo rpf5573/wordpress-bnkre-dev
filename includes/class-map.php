@@ -41,7 +41,7 @@ class ML_Map extends MyListing\Src\Queries\Explore_Listings {
 			'return_listings' => true,
 			'global_search' => is_null($s) ? false : true // 검색시에 모든 type을 포함시킬지 안시킬지를 결정합니다.
 		);
-		\PC::debug( ['args' => $args], __FUNCTION__ );
+		
 		return $args;
 	}
 	public static function getInstance() {
@@ -466,7 +466,7 @@ class ML_Map extends MyListing\Src\Queries\Explore_Listings {
 		return $result;
 	}
 	public function get_pin_logo( $type ) {
-		\PC::debug( ['type' => $type], __FUNCTION__ );
+		
 		if ( $type == $this->BUILDING_TYPE ) {
 			return $this->BUILDING_TYPE_PIN_LOGO_URL;
 		}
