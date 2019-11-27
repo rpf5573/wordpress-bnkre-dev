@@ -1,0 +1,187 @@
+/*
+ Theme Name:   My Listing Child
+ Theme URI:    http://mylisting.27collective.net/my-city/
+ Description:  MyListing Child Theme
+ Author:       27collective
+ Author URI:   https://27collective.net/
+ Template:     my-listing
+ Version:      1.1
+ License:      GNU General Public License v2 or later
+ License URI:  http://www.gnu.org/licenses/gpl-2.0.html
+ Tags:         one-column, two-columns, three-columns, left-sidebar, right-sidebar, grid-layout, custom-menu, custom-logo, featured-images, footer-widgets, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready
+ Text Domain:  my-listing-child
+*/
+
+p a {
+  color: #337ab7;
+}
+
+.foldable .pf-head {
+  margin-bottom: 10px;
+  transition: background-color 0.3s;
+  cursor: pointer;
+}
+.foldable .nav-tabs>li.active>a,
+.foldable .nav-tabs>li.active>a:focus,
+.foldable .nav-tabs>li.active>a:hover {
+  background: none;
+}
+.foldable .element {
+  background-color: #95a844;
+}
+.foldable .pf-head .material-icons.dropdown{
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: blue;
+  font-size: 22px;
+  margin-left: 15px;
+}
+
+.foldable .pf-body {
+  display: none;
+}
+.foldable .pf-body .location-address {
+  text-align: right;
+  position: relative;
+}
+
+#finderMap {
+  width: 100%;
+}
+
+#c27-explore-listings .explore-title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+  font-size: 30px;
+  color: black;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 10px;
+}
+#c27-explore-listings .explore-pagination-container {
+  position: fixed;
+  z-index: 99999999;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+}
+#c27-explore-listings .explore-pagination-container ul.page-numbers {
+  display: flex;
+}
+
+#c27-explore-listings .explore-pagination-container ul.page-numbers a.page-numbers {
+  background-color: black;
+  color: white;
+  border-radius: 50%;
+}
+
+#c27-explore-listings .explore-pagination-container ul.page-numbers span.current {
+  background-color: white;
+  color: black;
+  border-radius: 50%;
+}
+#c27-explore-listings .explore-pagination-container ul.page-numbers .page-numbers.dots {
+  border: none;
+}
+
+.tml-social-providers-divider {
+  display: none;
+}
+
+.tab-element.bl-tabs .nav-tabs li {
+  width: 33%;
+  text-align: center;
+}
+
+.woocommerce-levelup .agreeArea .content {
+  overflow: auto;
+  height: 150px;
+  padding: 30px;
+  border: 1px solid #e6e6e6;
+  background: #fbfbfb;
+}
+
+.woocommerce-levelup .check {
+  text-align: right;
+}
+
+.woocommerce-levelup .message {
+  position: relative;
+  padding: .75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: .25rem;
+}
+
+.woocommerce-levelup .message.waiting,
+.woocommerce-levelup .message.allowed {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+.woocommerce-levelup .message.rejected,
+.woocommerce-levelup .message.error {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+/* .woocommerce-levelup label {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 10px;
+} */
+
+.woocommerce-levelup .form-field {
+  padding-bottom: 10px;;
+}
+
+.woocommerce-levelup .check label {
+  display: inline-block;
+}
+
+.woocommerce-levelup .clearfix {
+  overflow: auto;
+}
+.woocommerce-levelup .submit-btn-container button {
+  float: right;
+}
+
+.woocommerce-levelup .error-message {
+  display: none;
+  margin-left: 15px;
+  color: red;
+}
+
+.woocommerce-levelup .checkbox {
+  margin: 0;
+  padding: 0;
+}
+
+.woocommerce-levelup .d-flex {
+  display: flex;
+}
+.woocommerce-levelup .d-flex.middle {
+  align-items: center;
+}
+.woocommerce-levelup .ml-10 {
+  margin-left: 10px;
+}
+.woocommerce-levelup .tb-space-10 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.ds-inline-block {
+  display: inline-block;
+}
+
+.fieldset-levelup_required p {
+  text-align: center;
+}
+.remote-tab {
+  cursor: pointer;
+}
