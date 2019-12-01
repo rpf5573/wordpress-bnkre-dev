@@ -26,24 +26,36 @@ p a {
 .foldable .nav-tabs>li.active>a:hover {
   background: none;
 }
-.foldable .element {
-  background-color: #95a844;
-}
-.foldable .pf-head .material-icons.dropdown{
+.foldable .pf-head .material-icons.dropdown {
   position: absolute;
   right: 0;
-  top: 0;
-  color: blue;
-  font-size: 22px;
-  margin-left: 15px;
+  top: -2px;
+  border: 1px solid #bac1c1;
+  border-radius: 50%;
+  font-size: 16px;
+  height: 18px;
+  width: 18px;
+  -webkit-transition: all .2s;
+  transition: all .2s;
 }
-
+.foldable .pf-head .material-icons.dropdown:before {
+  content: "\e5cf";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+}
 .foldable .pf-body {
   display: none;
 }
 .foldable .pf-body .location-address {
   text-align: right;
   position: relative;
+}
+
+.contact-form .element {
+  background-color: #95a844;
 }
 
 #finderMap {
