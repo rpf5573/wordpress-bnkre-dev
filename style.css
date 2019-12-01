@@ -39,7 +39,7 @@ p a {
   transition: all .2s;
 }
 .foldable .pf-head .material-icons.dropdown:before {
-  content: "\e5cf";
+  /* content: "\e5cf"; */
   position: absolute;
   left: 50%;
   top: 50%;
