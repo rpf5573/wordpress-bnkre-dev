@@ -1,18 +1,15 @@
 (function($){
-  var pf_head = jQuery('.foldable > .element > .pf-head');
-  if ( pf_head.length > 0 ) {
-    pf_head.append('<i class="material-icons dropdown">keyboard_arrow_down</i>');
+  var pf_element = jQuery('.foldable > .element');
+  if ( pf_element.length > 0 ) {
+    var pf_head = pf_element.find('.pf-head');
+    pf_head.append('<span class="mi expand_more"></span>');
     pf_head.on('click', function(){
       var $this = $(this);
-      var pf_body = $this.next();
-      var dropdown_icon = $this.find('.dropdown');
-      var text = dropdown_icon.text();
-      if ( text == 'keyboard_arrow_down' ) {
-        dropdown_icon.html('keyboard_arrow_up');
-        pf_body.css({display: 'block'});
+      var parent = $this.closest('.element');
+      if ( parent.hasClass('open') ) {
+        parent.removeClass('open');
       } else {
-        dropdown_icon.html('keyboard_arrow_down');
-        pf_body.css({display: 'none'});
+        parent.addClass('open');
       }
     });
   }
