@@ -29,6 +29,8 @@
       <label>SMS인증</label>
     </div>
     <button class="sms_auth_btn buttons button-3" type="button">SMS인증하는 버튼</button>
+    <input type="text" style="display:none;" name="sms_auth_imp_uid">
+    <span class="error-message">*SMS인증을 해주시기 바랍니다</span>
   </div>
   <div class="form-field">
     <div class="label-container">

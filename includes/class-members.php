@@ -13,8 +13,9 @@ class ML_Members {
   public static $TABLE_NAME = 'wp_levelup_requests';
   public static $NONCE_KEY = 'levelup_register_allow';
   public static $SMS_AUTH_NONCE = 'sms_auth_nonce';
-  public static $SMS_AUTH_REST_API_KEY = '6344950997627071';
-  public static $SMS_AUTH_REST_API_SECRET = 'LP3WbjKOC9iBGnBA5iQPoA0ZWdVHE48qUcm5v6U8gdKWAmxGEnv3Yv2UJYBo2KOWXb2thWByamuKI2qn';
+  public static $SMS_AUTH_REST_API_KEY = '3389788097877985';
+  public static $SMS_AUTH_REST_API_SECRET = 'ztrbbJqt3jtM9hM93AVLwMju895Y4tdDXFP8ofCsz5eJm1SqCOb8AvDJEIIIcWm9Bbi0rUs10GKmIDNk';
+  public static $IMPORT_API_URL = 'https://api.iamport.kr';
   public $redirect_url = '';
   public function __construct() {
     add_action( 'init', array($this, 'remove_login_default_fields'), 100 );
@@ -28,7 +29,7 @@ class ML_Members {
 
     add_action( 'admin_menu', [$this, 'add_user_levelup_request_history_menu'], 1000 );
 
-    add_action( 'wp_enqueue_scripts', [$this, 'enqueue_import_sms_library'], 1000 );
+    add_action( 'wp_enqueue_scripts', [$this, 'enqueue_scripts'], 1000 );
 
     add_action( 'admin_post_process_sms_auth', [$this, 'process_sms_auth'], 1000 );
     
@@ -102,7 +103,7 @@ class ML_Members {
     // 아직까지는 일반등업과 Partner등업의 폼 차이가 없기 때문에 같게 대응해도 된다
 
     // redirect url 체크
-    if ( ! isset($_POST['redirect_url']) ) { $this->send_json(false, 'redirect_url이 정의되지 않았습니다') ;}
+    if ( ! isset($_POST['redirect_url']) ) { $this->send_json(false, 'redirect_url이 정의되지 않았습니다'); }
     $this->redirect_url = $_POST['redirect_url'];
 
     // nonce 체크 , levelup_request_nonce뒤에 _check를 붙인 이유는 보안을 더 강화하기 위해서!
@@ -130,6 +131,13 @@ class ML_Members {
 
     // 가입목적 체크
     if ( ! isset($_POST['register-purpose']) ) { $this->send_json(false, '가입목적이 정의되지 않았습니다'); }
+
+    // 본인인증 체크
+    if ( ! isset($_POST['sms_auth_imp_uid']) ) { $this->send_json(false, '본인인증이 필요합니다'); }
+    $token = $this->get_import_token();
+    if ( ! $token ) { $this->send_json(false, "일시적인 문제로 본인인증서버에 문제가 생겼습니다. 토큰을 얻을 수 없습니다. 다날혹은 아임포트에 문의해주시기 바랍니다"); }
+    $response = $this->get_sms_auth_user_data($_POST['sms_auth_imp_uid'], $token);
+    if ( ! ($response && $response->certified) ) { $this->send_json(false, "본인인증이 필요합니다"); }
 
     // 위의 체크를 다 통과했으면, 이제 DB에 insert하자
     $result = $this->insert_levelup_request($user_id, $_POST['user-name'], $_POST['register-purpose'], $_POST['new-role']);
@@ -222,13 +230,55 @@ class ML_Members {
     </div>
     <?php
   }
+  public function get_import_token() {
+    $data = array(
+      'imp_key' => self::$SMS_AUTH_REST_API_KEY,
+      'imp_secret' => self::$SMS_AUTH_REST_API_SECRET
+    );
+    $url = self::$IMPORT_API_URL . '/users/getToken';
+    $ch = curl_init();                                 //curl 초기화
+    curl_setopt($ch, CURLOPT_URL, $url);               //URL 지정하기
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);    //요청 결과를 문자열로 반환
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);      //connection timeout 10초
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);   //원격 서버의 인증서가 유효한지 검사 안함
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));       //POST data
+    curl_setopt($ch, CURLOPT_POST, true);              //true시 post 전송
+    $response = curl_exec($ch);
+    curl_close($ch);
+    $response = json_decode($response);
+    if ( $response->code == 0 ) {
+      return $response->response->access_token;
+    } else {
+      return false;
+    }
+    return false;
+  }
+  public function get_sms_auth_user_data($imp_uid, $token) {
+    $url = self::$IMPORT_API_URL . "/certifications/" . $imp_uid;    
+    $ch = curl_init();                                 //curl 초기화
+    curl_setopt($ch, CURLOPT_URL, $url);               //URL 지정하기
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);    //요청 결과를 문자열로 반환 
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);      //connection timeout 10초 
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);   //원격 서버의 인증서가 유효한지 검사 안함
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array( 'Authorization:' . $token ));
+    
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    $response = json_decode($response);
+    if ( $response->code == 0 ) {
+      return $response->response;
+    } else {
+      return false;
+    }
+    return false;
+  }
 
   // 관리자페이지에서 등업 승인/거절 할때
   public function process_leveup_request() {
     $nonce_result = wp_verify_nonce( $_GET['_wpnonce'], ML_Members::$NONCE_KEY );
     
     if ( isset($_GET['_wpnonce']) && wp_verify_nonce( $_GET['_wpnonce'], ML_Members::$NONCE_KEY ) ) {
-      
       
       if ( isset($_GET['ml_user_id']) && isset($_GET['ml_allow']) && isset($_GET['new_role']) ) {
         
@@ -247,15 +297,11 @@ class ML_Members {
     
     $result = wp_update_user(array('ID'=>$user_id, 'role'=>$new_role));
   }
-  public function enqueue_import_sms_library() {
+  public function enqueue_scripts() {
     if ( $this->is_level_page() ) {
       wp_enqueue_script( 'import_library', 'https://cdn.iamport.kr/js/iamport.payment-1.1.5.js', array('jquery'), '1.1.5', false );
       wp_enqueue_script( 'sms', get_stylesheet_directory_uri() . '/sms.js', array('import_library'), '0.0.1', true );
-      $nonce = wp_create_nonce(ML_Members::$SMS_AUTH_NONCE);
-      wp_localize_script( 'sms', 'sms_auth_ajax', array(
-        'url'   => admin_url('admin-ajax.php'),
-        'nonce' => $nonce
-      ) );
+      wp_enqueue_script( 'loading-overlay', get_stylesheet_directory_uri() . '/LoadingOverlay.js', array('jquery'), '0.0.1', false );
     }
   }
   public function is_level_page() {
@@ -283,7 +329,6 @@ class ML_Members {
         'imp_secret' => ML_Members::$SMS_AUTH_REST_API_SECRET
       ),
     ));
-    
   }
   public function login_url($login_url, $redirect, $force_reauth) {
     $login_url = home_url('wp-login.php');

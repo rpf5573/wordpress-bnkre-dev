@@ -1,5 +1,5 @@
 (function($){
-  var store_id = "imp63297414";
+  var store_id = "imp93858932";
   var merchant_uid = 'merchant_' + new Date().getTime();
   var IMP = window.IMP;
   IMP.init(store_id);
@@ -11,20 +11,12 @@
         min_age: 12,
       }, function (rsp) {
         if (rsp.success) {
-          if ( ! sms_auth_ajax.nonce || !sms_auth_ajax.url ) { alert("Nonce is undefined. 잘못된 접근입니다"); return }
-          jQuery.ajax({
-            url: sms_auth_ajax.url,
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            data: {
-              nonce: sms_auth_ajax.nonce,
-              imp_uid: rsp.imp_uid,
-              action: 'process_sms_auth'
-            }
-          });
+          sms_auth_btn.text('인증 완료').addClass('button-2').removeClass('button-3');
+          sms_auth_btn.attr('disabled', true);
+          imp_uid_input = sms_auth_btn.closest('.tab-pane').find('input[name=sms_auth_imp_uid]');
+          imp_uid_input.val(rsp.imp_uid);
         } else {
-          console.log(rsp);
-          // alert("인증에 실패하였습니다. 에러 내용 : " . rsp.error_msg);
+          alert("인증에 실패하였습니다. 에러 내용 : " . rsp.error_msg);
         }
       });
     });

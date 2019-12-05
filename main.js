@@ -81,6 +81,7 @@
       return data;
     }
     this.handleSubmit = function(e) {
+      $(".woocommerce-levelup").LoadingOverlay("show");
       e.preventDefault();
       this.submitBtn.attr('disabled', true);
       var hasError = false;
@@ -91,7 +92,7 @@
         }
         else if ( type == 'checkbox' ) {
           hasError = this.validateCheckbox(el);
-        } 
+        }
         else if ( type == 'text' ) {
           hasError = this.validateInput(el);
         }
@@ -106,32 +107,38 @@
           url: action,
           data: data,
           success: function (response) {
-            if ( ! response.success && response.message ) {
-              alert(response.message);
-            }
-            window.location.href = response.redirect_url;
+            $(".woocommerce-levelup").LoadingOverlay("hide", true);
+            setTimeout(function(){
+              if ( ! response.success && response.message ) {
+                alert(response.message);
+              }
+              window.location.href = response.redirect_url;
+            }, 300);
           }
         });
       } else {
+        $(".woocommerce-levelup").LoadingOverlay("hide", true);
         this.submitBtn.attr('disabled', false);
       }
     }
     this.handleSubmit = this.handleSubmit.bind(this); // 이렇게 해줘야 handleSubmit 안에있는 this가 이 Validator를 가리키게된다
     this.form.on("submit", this.handleSubmit);
   }
+
   // approved user
   (function($){
     // for approved user
     var select = $('#levelup-request-form-approved-user select');
     if ( select.length > 0 ) {
       select.select2();
-      var formValidator = new Validator("#levelup-request-form-approved-user", '.form-field', '.error-message');
-      formValidator.addTargetFormField('input[name=new-role]');
-      formValidator.addTargetFormField('input[name=user-name]');
-      formValidator.addTargetFormField('select[name=register-purpose]');
-      formValidator.addTargetFormField('input[name=personal-info-agree]');
-      formValidator.addTargetFormField('input[name=location-info-agree]');
     }
+    var formValidator = new Validator("#levelup-request-form-approved-user", '.form-field', '.error-message');
+    formValidator.addTargetFormField('input[name=new-role]');
+    formValidator.addTargetFormField('input[name=user-name]');
+    formValidator.addTargetFormField('select[name=register-purpose]');
+    formValidator.addTargetFormField('input[name=sms_auth_imp_uid]');
+    formValidator.addTargetFormField('input[name=personal-info-agree]');
+    formValidator.addTargetFormField('input[name=location-info-agree]');
   })(jQuery);
 
   // partner
@@ -140,13 +147,14 @@
     var select = $('#levelup-request-form-partner select');
     if ( select.length > 0 ) {
       select.select2();
-      var formValidator = new Validator("#levelup-request-form-partner", '.form-field', '.error-message');
-      formValidator.addTargetFormField('input[name=new-role]');
-      formValidator.addTargetFormField('input[name=user-name]');
-      formValidator.addTargetFormField('select[name=register-purpose]');
-      formValidator.addTargetFormField('input[name=personal-info-agree]');
-      formValidator.addTargetFormField('input[name=location-info-agree]');
     }
+    var formValidator = new Validator("#levelup-request-form-partner", '.form-field', '.error-message');
+    formValidator.addTargetFormField('input[name=new-role]');
+    formValidator.addTargetFormField('input[name=user-name]');
+    formValidator.addTargetFormField('select[name=register-purpose]');
+    formValidator.addTargetFormField('input[name=sms_auth_imp_uid]');
+    formValidator.addTargetFormField('input[name=personal-info-agree]');
+    formValidator.addTargetFormField('input[name=location-info-agree]');
   })(jQuery);
 
   // vip
@@ -155,13 +163,14 @@
     var select = $('#levelup-request-form-vip select');
     if ( select.length > 0 ) {
       select.select2();
-      var formValidator = new Validator("#levelup-request-form-vip", '.form-field', '.error-message');
-      formValidator.addTargetFormField('input[name=new-role]');
-      formValidator.addTargetFormField('input[name=user-name]');
-      formValidator.addTargetFormField('select[name=register-purpose]');
-      formValidator.addTargetFormField('input[name=personal-info-agree]');
-      formValidator.addTargetFormField('input[name=location-info-agree]');
     }
+    var formValidator = new Validator("#levelup-request-form-vip", '.form-field', '.error-message');
+    formValidator.addTargetFormField('input[name=new-role]');
+    formValidator.addTargetFormField('input[name=user-name]');
+    formValidator.addTargetFormField('select[name=register-purpose]');
+    formValidator.addTargetFormField('input[name=sms_auth_imp_uid]');
+    formValidator.addTargetFormField('input[name=personal-info-agree]');
+    formValidator.addTargetFormField('input[name=location-info-agree]');
   })(jQuery);
 
 })(jQuery);
