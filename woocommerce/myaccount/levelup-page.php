@@ -42,6 +42,6 @@ global $wpdb; ?>
 		echo "<div class='{$class_name}'>{$message}</div>";
 	}
 	// 에러메세지가 있다 한들!! 폼은 보여줘야할거 아니여~ 또 신청할 수도 있잖여, 안그래?
-	get_template_part( 'woocommerce/myaccount/levelup-request', 'tabs' );
+	get_template_part( 'woocommerce/myaccount/levelup-request', 'form' );
 	?>
 </div>

@@ -122,6 +122,11 @@ p a {
   background: #fbfbfb;
 }
 
+.woocommerce-levelup {
+  background-color: white;
+  padding: 30px;
+}
+
 .woocommerce-levelup .check {
   text-align: right;
 }
@@ -153,8 +158,16 @@ p a {
   margin-bottom: 10px;
 } */
 
+.woocommerce-levelup select {
+  width: 100%;
+}
+
 .woocommerce-levelup .form-field {
-  padding-bottom: 10px;;
+  padding-bottom: 20px;
+}
+
+.woocommerce-levelup .form-field label {
+  padding-bottom: 10px;
 }
 
 .woocommerce-levelup .check label {

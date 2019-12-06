@@ -115,6 +115,7 @@ class ML_Members {
     $user_id = get_current_user_id();
     if ( ! $user_id ) { $this->send_json(false, '로그인 상태가 아닙니다'); }
 
+    // new role 체크
     if ( ! isset($_POST['new-role']) ) {
       wp_send_json( ['success' => false, 'redirect_url' => $redirect_url.'/?isSuccess=false&message=등업유형을 정하지 않으셨습니다'] );
     } else {
@@ -122,11 +123,6 @@ class ML_Members {
       if ( ! in_array($type, [ML_Role::$approved_user, ML_Role::$partner, ML_Role::$vip] ) ) {
         wp_send_json( ['success' => false, 'redirect_url' => $redirect_url.'/?isSuccess=false&message=등업유형이 올바르지 않습니다'] );
       }
-    }
-
-    // 성명 체크
-    if ( ! isset($_POST['user-name']) ) { 
-      $this->send_json(false, '성함이 입력되지 않았습니다');
     }
 
     // 가입목적 체크
@@ -139,16 +135,19 @@ class ML_Members {
     $response = $this->get_sms_auth_user_data($_POST['sms_auth_imp_uid'], $token);
     if ( ! ($response && $response->certified) ) { $this->send_json(false, "본인인증이 필요합니다"); }
 
-    // 위의 체크를 다 통과했으면, 이제 DB에 insert하자
-    $result = $this->insert_levelup_request($user_id, $_POST['user-name'], $_POST['register-purpose'], $_POST['new-role']);
+    $name = $response->name;
+    $phonenumber = '010-9619-0918';
 
+    // 위의 체크를 다 통과했으면, 이제 DB에 insert하자
+    $result = $this->insert_levelup_request($user_id, $name, $_POST['register-purpose'], $_POST['new-role']);
+    $result = true;
     if ( $result ) {
       $this->send_json(true, '등업신청완료');
     } else {
       $this->send_json(false, 'DB에러로 등업신청이 안되었습니다. 관리자에게 문의해주시기 바랍니다.');
     }
   }
-  public function insert_levelup_request( $user_id, $user_name, $purpose, $new_role) {
+  public function insert_levelup_request( $user_id, $user_name, $purpose, $new_role, $phonenumber) {
     global $wpdb;
     $info = $this->get_levelup_request_info($user_id);
     if ( is_null( $info ) ) {
@@ -158,6 +157,7 @@ class ML_Members {
         'purpose'       => $purpose,
         'date'          => current_time( 'mysql' ),
         'new_role'      => $new_role,
+        'phonenumber'   => $phonenumber
       ));
     } else {
       $result = $wpdb->update(ML_Members::$TABLE_NAME, array(
@@ -165,6 +165,7 @@ class ML_Members {
         'purpose'       => $purpose,
         'date'          => current_time( 'mysql' ),
         'new_role'      => $new_role,
+        'phonenumber'   => $phonenumber,
         'status'        => 0 // 업데이트 했으니까 다시 승인을 받아야겠지?
       ), array(
         'user_id' => $user_id
@@ -384,7 +385,7 @@ class Levelup_Request_List_Table extends WP_List_Table {
 
   public function get_list( $per_page = 5, $page_number = 1 ) {
     global $wpdb;
-    $sql = sprintf("SELECT `user_id`, `name`, `purpose`, `new_role`, `date` FROM `%s` WHERE `status` = %d", ML_Members::$TABLE_NAME, ML_Members::$WAITING_CODE);
+    $sql = sprintf("SELECT `user_id`, `name`, `purpose`, `new_role`, `date`, `phonenumber` FROM `%s` WHERE `status` = %d", ML_Members::$TABLE_NAME, ML_Members::$WAITING_CODE);
     $sql .= " LIMIT {$per_page}";
     $sql .= " OFFSET " . ( $page_number - 1 ) * $per_page;
     
@@ -424,6 +425,8 @@ class Levelup_Request_List_Table extends WP_List_Table {
         return $new_role;
       case 'date':
         return $item['date'];
+      case 'phonenumber':
+        return $item['phonenumber'];
       case 'process':
         if ( ! isset($item['user_id']) ) { return 'ERROR : user id가 없습니다'; }
         $wpnonce = wp_create_nonce( ML_Members::$NONCE_KEY );
@@ -448,12 +451,13 @@ class Levelup_Request_List_Table extends WP_List_Table {
 
   public function get_columns() {
     $columns = [
-      'cb'        => '<input type="checkbox" />',
-      'user_id'   => '유저 아이디',
-      'name'      => '성명',
-      'purpose'   => '가입목적',
-      'new_role'  => '등업유형',
-      'date'      => '신청날짜',
+      'cb'            => '<input type="checkbox" />',
+      'user_id'       => '유저 아이디',
+      'name'          => '성명',
+      'purpose'       => '가입목적',
+      'new_role'      => '등업유형',
+      'date'          => '신청날짜',
+      'phonenumber'   => '전화번호',
       'process'   => '처리(승인/거절)'
     ];
   

@@ -19,6 +19,17 @@
 // request levelup form
 (function($){
 
+  $.fn.updateSelect2Items = function(items, config){
+    var that = this;
+    that.html(''); // 먼저 싹 비우고
+    that.select2("destroy");
+    for(var k in items){
+        var data = items[k];
+        that.append("<option value='"+ data.val +"'>" + data.text + "</option>"); // 체운다
+    }
+    that.select2(config || {});
+  };
+
   function Validator(formId, formFieldClass, errorMessageDivClass) {
     this.form = $(formId);
     this.submitBtn = this.form.find('button[type=submit]');
@@ -128,49 +139,95 @@
   // approved user
   (function($){
     // for approved user
-    var select = $('#levelup-request-form-approved-user select');
+    var select = $('#levelup-request-form select');
     if ( select.length > 0 ) {
       select.select2();
     }
-    var formValidator = new Validator("#levelup-request-form-approved-user", '.form-field', '.error-message');
-    formValidator.addTargetFormField('input[name=new-role]');
-    formValidator.addTargetFormField('input[name=user-name]');
+    var formValidator = new Validator("#levelup-request-form", '.form-field', '.error-message');
+    formValidator.addTargetFormField('select[name=new-role]');
     formValidator.addTargetFormField('select[name=register-purpose]');
     formValidator.addTargetFormField('input[name=sms_auth_imp_uid]');
     formValidator.addTargetFormField('input[name=personal-info-agree]');
     formValidator.addTargetFormField('input[name=location-info-agree]');
-  })(jQuery);
 
-  // partner
-  (function($){
-    // for partner
-    var select = $('#levelup-request-form-partner select');
-    if ( select.length > 0 ) {
-      select.select2();
-    }
-    var formValidator = new Validator("#levelup-request-form-partner", '.form-field', '.error-message');
-    formValidator.addTargetFormField('input[name=new-role]');
-    formValidator.addTargetFormField('input[name=user-name]');
-    formValidator.addTargetFormField('select[name=register-purpose]');
-    formValidator.addTargetFormField('input[name=sms_auth_imp_uid]');
-    formValidator.addTargetFormField('input[name=personal-info-agree]');
-    formValidator.addTargetFormField('input[name=location-info-agree]');
-  })(jQuery);
-
-  // vip
-  (function($){
-    // for partner
-    var select = $('#levelup-request-form-vip select');
-    if ( select.length > 0 ) {
-      select.select2();
-    }
-    var formValidator = new Validator("#levelup-request-form-vip", '.form-field', '.error-message');
-    formValidator.addTargetFormField('input[name=new-role]');
-    formValidator.addTargetFormField('input[name=user-name]');
-    formValidator.addTargetFormField('select[name=register-purpose]');
-    formValidator.addTargetFormField('input[name=sms_auth_imp_uid]');
-    formValidator.addTargetFormField('input[name=personal-info-agree]');
-    formValidator.addTargetFormField('input[name=location-info-agree]');
+    // 등업유형이 변경될때마다 가입목적도 바뀌어야함
+    $('select[name=new-role]').on('change', function(){
+      $this = $(this);
+      var role = $this.val();
+      var registerPurposeSelect = $('select[name=register-purpose]');
+      if ( role == 'approved_user' ) {
+        registerPurposeSelect.updateSelect2Items([
+          {
+            val: '일반등업 가입목적 - A',
+            text: '일반등업 가입목적 - A'
+          },
+          {
+            val: '일반등업 가입목적 - B',
+            text: '일반등업 가입목적 - B'
+          },
+          {
+            val: '일반등업 가입목적 - C',
+            text: '일반등업 가입목적 - C'
+          },
+          {
+            val: '일반등업 가입목적 - D',
+            text: '일반등업 가입목적 - D'
+          },
+          {
+            val: '일반등업 가입목적 - E',
+            text: '일반등업 가입목적 - E'
+          },
+        ], {});
+      }
+      else if ( role == 'partner' ) {
+        registerPurposeSelect.updateSelect2Items([
+          {
+            val: '파트너 가입목적 - A',
+            text: '파트너 가입목적 - A'
+          },
+          {
+            val: '파트너 가입목적 - B',
+            text: '파트너 가입목적 - B'
+          },
+          {
+            val: '파트너 가입목적 - C',
+            text: '파트너 가입목적 - C'
+          },
+          {
+            val: '파트너 가입목적 - D',
+            text: '파트너 가입목적 - D'
+          },
+          {
+            val: '파트너 가입목적 - E',
+            text: '파트너 가입목적 - E'
+          },
+        ], {});
+      }
+      else if ( role == 'vip' ) {
+        registerPurposeSelect.updateSelect2Items([
+          {
+            val: 'VIP 가입목적 - A',
+            text: 'VIP 가입목적 - A'
+          },
+          {
+            val: 'VIP 가입목적 - B',
+            text: 'VIP 가입목적 - B'
+          },
+          {
+            val: 'VIP 가입목적 - C',
+            text: 'VIP 가입목적 - C'
+          },
+          {
+            val: 'VIP 가입목적 - D',
+            text: 'VIP 가입목적 - D'
+          },
+          {
+            val: 'VIP 가입목적 - E',
+            text: 'VIP 가입목적 - E'
+          },
+        ], {});
+      }
+    });
   })(jQuery);
 
 })(jQuery);

@@ -13,7 +13,7 @@
         if (rsp.success) {
           sms_auth_btn.text('인증 완료').addClass('button-2').removeClass('button-3');
           sms_auth_btn.attr('disabled', true);
-          imp_uid_input = sms_auth_btn.closest('.tab-pane').find('input[name=sms_auth_imp_uid]');
+          var imp_uid_input = $('input[name=sms_auth_imp_uid]');
           imp_uid_input.val(rsp.imp_uid);
         } else {
           alert("인증에 실패하였습니다. 에러 내용 : " . rsp.error_msg);
