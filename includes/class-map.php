@@ -5,7 +5,7 @@ class ML_Map extends MyListing\Src\Queries\Explore_Listings {
   public $paged;
   public $has_listings;
 	public $title;
-	public $BUILDING_TYPE = 13;
+	public $BUILDING_TYPE = 'building';
 	public $RESTAURANT_TYPE = 'restaurant';
 	public $WAREHOUSE_TYPE = 'warehouse';
 	public $BUILDING_TYPE_PIN_LOGO_URL = 'https://bnkre.com/wp-content/uploads/2019/11/marker.jpg';

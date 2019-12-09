@@ -139,8 +139,7 @@ class ML_Members {
     $phonenumber = '010-9619-0918';
 
     // 위의 체크를 다 통과했으면, 이제 DB에 insert하자
-    $result = $this->insert_levelup_request($user_id, $name, $_POST['register-purpose'], $_POST['new-role']);
-    $result = true;
+    $result = $this->insert_levelup_request($user_id, $name, $_POST['register-purpose'], $_POST['new-role'], $phonenumber);
     if ( $result ) {
       $this->send_json(true, '등업신청완료');
     } else {

@@ -69,7 +69,7 @@ $data['listing-wrap'] = 'col-md-12 grid-item';
 				];
 				$args['meta_query']['listing_type_query'] = [
 					'key'     => '_case27_listing_type',
-					'value'   =>  13,
+					'value'   =>  'building',
 					'compare' => '='
 				];
 				$explore_tab = get_query_var( 'explore_tab' );
