@@ -246,3 +246,10 @@
     }
   });
 })(jQuery);
+
+(function($){
+  var select = $('.bnkre-contact-form select');
+  if ( select.length > 0 ) {
+    select.select2();
+  }
+})(jQuery);
