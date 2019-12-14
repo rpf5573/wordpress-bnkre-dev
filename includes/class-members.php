@@ -136,7 +136,7 @@ class ML_Members {
     if ( ! ($response && $response->certified) ) { $this->send_json(false, "본인인증이 필요합니다"); }
 
     $name = $response->name;
-    $phonenumber = $response->name;
+    $phonenumber = $response->phone;
 
     // 위의 체크를 다 통과했으면, 이제 DB에 insert하자
     $result = $this->insert_levelup_request($user_id, $name, $_POST['register-purpose'], $_POST['new-role'], $phonenumber);
@@ -404,8 +404,9 @@ class Levelup_Request_List_Table extends WP_List_Table {
 
   public function column_default( $item, $column_name ) {
     switch ( $column_name ) {
-      case 'user_id':
-        return $item['user_id'];
+      case 'user_login':
+        $user = get_user_by( 'id', $item['user_id'] );
+        return $user->user_login;
       case 'name':
         return $item['name'];
       case 'purpose':
@@ -451,7 +452,7 @@ class Levelup_Request_List_Table extends WP_List_Table {
   public function get_columns() {
     $columns = [
       'cb'            => '<input type="checkbox" />',
-      'user_id'       => '유저 아이디',
+      'user_login'    => '유저 아이디',
       'name'          => '성명',
       'purpose'       => '가입목적',
       'new_role'      => '등업유형',
