@@ -136,9 +136,7 @@
     this.form.on("submit", this.handleSubmit);
   }
 
-  // approved user
   (function($){
-    // for approved user
     var select = $('#levelup-request-form select');
     if ( select.length > 0 ) {
       select.select2();
@@ -148,7 +146,6 @@
     formValidator.addTargetFormField('select[name=register-purpose]');
     formValidator.addTargetFormField('input[name=sms_auth_imp_uid]');
     formValidator.addTargetFormField('input[name=personal-info-agree]');
-    formValidator.addTargetFormField('input[name=location-info-agree]');
 
     // 등업유형이 변경될때마다 가입목적도 바뀌어야함
     $('select[name=new-role]').on('change', function(){
@@ -158,72 +155,24 @@
       if ( role == 'approved_user' ) {
         registerPurposeSelect.updateSelect2Items([
           {
-            val: '일반등업 가입목적 - A',
-            text: '일반등업 가입목적 - A'
-          },
-          {
-            val: '일반등업 가입목적 - B',
-            text: '일반등업 가입목적 - B'
-          },
-          {
-            val: '일반등업 가입목적 - C',
-            text: '일반등업 가입목적 - C'
-          },
-          {
-            val: '일반등업 가입목적 - D',
-            text: '일반등업 가입목적 - D'
-          },
-          {
-            val: '일반등업 가입목적 - E',
-            text: '일반등업 가입목적 - E'
-          },
+            val: '부동산 임대차 또는 매입/매각을 희망합니다',
+            text: '부동산 임대차 또는 매입/매각을 희망합니다'
+          }
         ], {});
       }
       else if ( role == 'partner' ) {
         registerPurposeSelect.updateSelect2Items([
           {
-            val: '파트너 가입목적 - A',
-            text: '파트너 가입목적 - A'
-          },
-          {
-            val: '파트너 가입목적 - B',
-            text: '파트너 가입목적 - B'
-          },
-          {
-            val: '파트너 가입목적 - C',
-            text: '파트너 가입목적 - C'
-          },
-          {
-            val: '파트너 가입목적 - D',
-            text: '파트너 가입목적 - D'
-          },
-          {
-            val: '파트너 가입목적 - E',
-            text: '파트너 가입목적 - E'
+            val: '부동산등 관련 유사업종 종사자로서 파트너회원을 희망합니다',
+            text: '부동산등 관련 유사업종 종사자로서 파트너회원을 희망합니다'
           },
         ], {});
       }
       else if ( role == 'vip' ) {
         registerPurposeSelect.updateSelect2Items([
           {
-            val: 'VIP 가입목적 - A',
-            text: 'VIP 가입목적 - A'
-          },
-          {
-            val: 'VIP 가입목적 - B',
-            text: 'VIP 가입목적 - B'
-          },
-          {
-            val: 'VIP 가입목적 - C',
-            text: 'VIP 가입목적 - C'
-          },
-          {
-            val: 'VIP 가입목적 - D',
-            text: 'VIP 가입목적 - D'
-          },
-          {
-            val: 'VIP 가입목적 - E',
-            text: 'VIP 가입목적 - E'
+            val: '부동산 소유자 또는 관리업체로서 서비스이용을 희망합니다',
+            text: '부동산 소유자 또는 관리업체로서 서비스이용을 희망합니다'
           },
         ], {});
       }
