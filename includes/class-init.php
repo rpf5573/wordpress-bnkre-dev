@@ -11,9 +11,9 @@ class ML_Init {
   }
   public function theme_enqueue_styles() {
     wp_enqueue_style( 'child-style', get_stylesheet_uri() );
-    wp_enqueue_script( 'child-js', get_stylesheet_directory_uri() . '/main.js', array('jquery'), '0.001', true );
+    wp_enqueue_script( 'child-js', get_stylesheet_directory_uri() . '/main.js', array('jquery', 'select2'), '0.001', true );
     if ( is_rtl() ) {
-    	wp_enqueue_style( 'mylisting-rtl', get_template_directory_uri() . '/rtl.css', [], wp_get_theme()->get('Version') );
+      wp_enqueue_style( 'mylisting-rtl', get_template_directory_uri() . '/rtl.css', [], wp_get_theme()->get('Version') );
     }
   }
   public function include_classes_after_parent_theme_loaded() {

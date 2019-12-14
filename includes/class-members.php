@@ -136,7 +136,7 @@ class ML_Members {
     if ( ! ($response && $response->certified) ) { $this->send_json(false, "본인인증이 필요합니다"); }
 
     $name = $response->name;
-    $phonenumber = '010-9619-0918';
+    $phonenumber = $response->name;
 
     // 위의 체크를 다 통과했으면, 이제 DB에 insert하자
     $result = $this->insert_levelup_request($user_id, $name, $_POST['register-purpose'], $_POST['new-role'], $phonenumber);
