@@ -66,6 +66,7 @@
       return false;
     }
     this.validateCheckbox = function(el){
+      console.log(el.is(':checked'));
       if ( ! el.is(':checked') ) {
         this.showErrorMessage(el);
         return true;
@@ -95,24 +96,23 @@
       $(".woocommerce-levelup").LoadingOverlay("show");
       e.preventDefault();
       this.submitBtn.attr('disabled', true);
-      var hasError = false;
+      var errorCount = 0;
       this.targets.forEach(el => {
         var type = el.prop('type');
         if ( type == 'select-one' ) {
-          hasError = this.validateSelect(el);
+          if ( this.validateSelect(el) ) { errorCount++; }
         }
         else if ( type == 'checkbox' ) {
-          hasError = this.validateCheckbox(el);
+          if ( this.validateCheckbox(el) ) { errorCount++; }
         }
-        else if ( type == 'text' ) {
-          hasError = this.validateInput(el);
+        else if ( type == 'text' ) { 
+          if ( this.validateInput(el) ) { errorCount++ }
         }
       });
-      if ( !hasError ) {
+      if ( errorCount == 0 ) {
         var method = this.form.attr("method");
         var action = this.form.attr("action");
         var data = this.getValues();
-        console.log('data', data);
         $.ajax({
           type: method,
           url: action,

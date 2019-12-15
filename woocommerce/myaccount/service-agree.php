@@ -1,4 +1,4 @@
-<div class="agreeArea personal-info-agree">
+<div class="agreeArea service-agree">
   <div class="content">
   <p>제1조(목적)</p>
   <ol>
