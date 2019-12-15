@@ -146,6 +146,7 @@
     formValidator.addTargetFormField('select[name=register-purpose]');
     formValidator.addTargetFormField('input[name=sms_auth_imp_uid]');
     formValidator.addTargetFormField('input[name=personal-info-agree]');
+    formValidator.addTargetFormField('input[name=service-agree]');
 
     // 등업유형이 변경될때마다 가입목적도 바뀌어야함
     $('select[name=new-role]').on('change', function(){

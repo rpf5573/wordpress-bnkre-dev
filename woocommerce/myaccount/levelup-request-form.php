@@ -44,6 +44,20 @@
       <span class="error-message">*개인정보제공 활용에 동의해주시기 바랍니다</span>
     </div>
   </div>
+  <div class="form-field">
+    <div class="label-container">
+      <label for="service-agree">서비스 이용약관 동의</label>
+    </div>
+    <?php wc_get_template_part( 'myaccount/service', 'agree' ); ?>
+    <div class="tb-space-10 d-flex middle">
+      <span>동의하십니까?</span>
+      <div class="checkbox md-checkbox ml-10">
+        <input type="checkbox" name="service-agree" id="service-agree" required>
+        <label for="service-agree"></label>
+      </div>
+      <span class="error-message">*서비스 이용약관에 동의해주시기 바랍니다</span>
+    </div>
+  </div>
   <div class="submit-btn-container clearfix">
     <button class="buttons button-2" type="submit">등업신청</button>
   </div>
