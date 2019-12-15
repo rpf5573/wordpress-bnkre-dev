@@ -197,7 +197,6 @@
 })(jQuery);
 
 (function($){
-  alert("얏호!");
   var select = $('.bnkre-contact-form select');
   if ( select.length > 0 ) {
     select.select2();

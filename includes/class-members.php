@@ -212,7 +212,7 @@ class ML_Members {
     $this->process_leveup_request(); ?>
 
     <div class="wrap">
-      <h2>WP_List_Table Class Example</h2>
+      <h2>등업 신청 리스트</h2>
       <div id="poststuff">
         <div id="post-body" class="metabox-holder">
           <div id="post-body-content">
